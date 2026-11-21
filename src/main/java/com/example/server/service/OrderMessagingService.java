@@ -113,5 +113,6 @@ public class OrderMessagingService {
         );
         messagingTemplate.convertAndSend(KITCHEN_DEST, ping);
         messagingTemplate.convertAndSend(WAITER_ALL,   ping);
+        messagingTemplate.convertAndSend("/topic/heartbeat", ping);
     }
 }

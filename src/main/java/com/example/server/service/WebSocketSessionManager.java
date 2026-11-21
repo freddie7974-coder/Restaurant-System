@@ -7,7 +7,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class WebSocketSessionManager {
-
     private final Map<String, String> sessionToTable      = new ConcurrentHashMap<>();
     private final Map<String, String> sessionToClientType = new ConcurrentHashMap<>();
     private final Map<String, Set<String>> tableToSessions = new ConcurrentHashMap<>();
@@ -27,8 +26,6 @@ public class WebSocketSessionManager {
                 .computeIfAbsent(tableNumber, k -> ConcurrentHashMap.newKeySet())
                 .add(sessionId);
         }
-        System.out.println("Session registered: " + sessionId
-                + "  table=" + tableNumber + "  type=" + clientType);
     }
 
     public void removeSession(String sessionId) {
@@ -44,15 +41,9 @@ public class WebSocketSessionManager {
                 if (sessions.isEmpty()) tableToSessions.remove(tableNumber);
             }
         }
-        System.out.println("Session removed: " + sessionId);
     }
 
     public Set<String> getSessionsForTable(String tableNumber) {
         return tableToSessions.getOrDefault(tableNumber, Collections.emptySet());
     }
-
-    public Set<String> getKitchenSessions()  { return Collections.unmodifiableSet(kitchenSessions); }
-    public Set<String> getWaiterSessions()   { return Collections.unmodifiableSet(waiterSessions); }
-    public boolean isKitchenConnected()      { return !kitchenSessions.isEmpty(); }
-    public int getActiveConnectionCount()    { return sessionToTable.size(); }
 }

@@ -6,8 +6,15 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Menu management endpoints.
@@ -21,7 +28,7 @@ import java.util.List;
  *   PUT    /api/menu/{id}         — update name/price/description
  *   DELETE /api/menu/{id}         — remove an item permanently
  *   PATCH  /api/menu/{id}/toggle  — mark available or unavailable
- *                                    (e.g. "we ran out of beef today")
+ *   (e.g. "we ran out of beef today")
  */
 @RestController
 @RequestMapping("/api/menu")
@@ -114,5 +121,28 @@ public class MenuController {
                     return ResponseEntity.ok(menuRepository.save(existing));
                 })
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    /**
+     * Upload a menu item image.
+     * POST /api/menu/upload
+     * Form data: file
+     *
+     * Returns the local URL where the image can be accessed.
+     */
+    @PostMapping("/upload")
+    public ResponseEntity<Map<String, String>> uploadImage(@RequestParam("file") MultipartFile file) {
+        try {
+            String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+            Path path = Paths.get("uploads", fileName);
+            Files.createDirectories(path.getParent());
+            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+
+            // Return the local URL that the tablet can see
+            String fileUrl = "http://172.20.10.5:8080/uploads/" + fileName;
+            return ResponseEntity.ok(Map.of("url", fileUrl));
+        } catch (IOException e) {
+            return ResponseEntity.status(500).build();
+        }
     }
 }

@@ -26,6 +26,9 @@ public class MenuItem {
     // Category e.g. "Burgers", "Drinks", "Desserts"
     private String category;
 
+    // NEW: Field for photo links
+    private String imageUrl;
+
     public MenuItem() {}
 
     public MenuItem(String name, String description, double price) {
@@ -41,6 +44,14 @@ public class MenuItem {
         this.category    = category;
     }
 
+    public MenuItem(String name, String description, double price, String category, String imageUrl) {
+        this.name        = name;
+        this.description = description;
+        this.price       = price;
+        this.category    = category;
+        this.imageUrl    = imageUrl;
+    }
+
     public Long getId()                          { return id; }
     public String getName()                      { return name; }
     public void setName(String n)                { this.name = n; }
@@ -52,4 +63,6 @@ public class MenuItem {
     public void setAvailable(boolean a)          { this.available = a; }
     public String getCategory()                  { return category; }
     public void setCategory(String c)            { this.category = c; }
+    public String getImageUrl()                  { return imageUrl; }
+    public void setImageUrl(String url)          { this.imageUrl = url; }
 }

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Living API reference — teammates call GET /api/docs to see
+ * Living API reference — other components call GET /api/docs to see
  * every available endpoint, its method, body format, and what
  * it returns. No external Swagger dependency needed.
  */
