@@ -1,14 +1,5 @@
 .gradle/
-build/
-*.class
-*.log
-*.jar
-!gradle/wrapper/gradle-wrapper.jar
-*.db
-*.mv.db
-*.trace.db
-.vscode/
-.idea/
-*.iml
-out/
 bin/
+build/
+node_modules/
+.env
